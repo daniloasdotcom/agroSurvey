@@ -4,7 +4,7 @@ import pygsheets
 import os
 import matplotlib.pyplot as plt
 
-credenciais = pygsheets.authorize(service_file=os.getcwd() + "./streamlit_sheets/cred.json")
+credenciais = pygsheets.authorize(service_file=os.getcwd() + "/cred.json")
 planGoogleSheets = "https://docs.google.com/spreadsheets/d/1AhsnUZFQ7yF9FypzeixHfiMAUtFgmGxj_Xebbuk8ESE/"
 arquivo = credenciais.open_by_url(planGoogleSheets)
 aba = arquivo.worksheet_by_title("plan01")
