@@ -12,11 +12,19 @@ import toml
 rcParams['font.family'] = 'serif'
 rcParams['font.serif'] = ['Times New Roman'] + rcParams['font.serif']
 
-# Definir constantes para o arquivo de credenciais do serviço do Google Sheets, URL da planilha e título da aba
-# Carregar as informações secretas do arquivo TOML
-secrets = toml.load("secrets.toml")
-# SERVICE_FILE = os.path.join(os.getcwd(), "cred.json")
+
+# Obtém o diretório atual do script
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Carrega as informações secretas do arquivo TOML
+secrets_path = os.path.join(current_directory, "secrets.toml")
+secrets = toml.load(secrets_path)
+
+# Agora você pode acessar as informações secretas
 SERVICE_FILE = os.path.join(os.getcwd(), secrets["secrets"]["SERVICE_FILE"])
+
+# Definir constantes para o arquivo de credenciais do serviço do Google Sheets, URL da planilha e título da aba
+# SERVICE_FILE = os.path.join(os.getcwd(), "cred.json")
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1AhsnUZFQ7yF9FypzeixHfiMAUtFgmGxj_Xebbuk8ESE/"
 SHEET_TITLE = "plan01"
 
