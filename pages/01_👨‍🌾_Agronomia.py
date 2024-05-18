@@ -13,11 +13,13 @@ rcParams['font.family'] = 'serif'
 rcParams['font.serif'] = ['Times New Roman'] + rcParams['font.serif']
 
 
-# Obtém o diretório atual do script
-current_directory = os.path.dirname(os.path.abspath(__file__))
+# Obtém o caminho absoluto do diretório atual
+current_directory = os.getcwd()
 
-# Carrega as informações secretas do arquivo TOML
+# Combinar o caminho absoluto com o nome do arquivo
 secrets_path = os.path.join(current_directory, "secrets.toml")
+
+# Carregar as informações secretas do arquivo TOML
 secrets = toml.load(secrets_path)
 
 # Agora você pode acessar as informações secretas
