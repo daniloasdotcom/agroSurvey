@@ -14,7 +14,7 @@ rcParams['font.serif'] = ['Times New Roman'] + rcParams['font.serif']
 
 
 # Obtém o caminho absoluto do diretório atual
-current_directory = os.getcwd()
+#current_directory = os.getcwd()
 
 # Combinar o caminho absoluto com o nome do arquivo
 #secrets_path = os.path.join(current_directory, "secrets.toml")
@@ -26,7 +26,7 @@ current_directory = os.getcwd()
 #SERVICE_FILE = os.path.join(os.getcwd(), secrets["secrets"]["SERVICE_FILE"])
 
 # Definir constantes para o arquivo de credenciais do serviço do Google Sheets, URL da planilha e título da aba
-SERVICE_FILE = os.path.join(os.getcwd(), "cred.json")
+SERVICE_FILE = os.path.join(os.getcwd(), "./cred.json")
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1AhsnUZFQ7yF9FypzeixHfiMAUtFgmGxj_Xebbuk8ESE/"
 SHEET_TITLE = "plan01"
 
@@ -76,19 +76,21 @@ def plot_salary_distribution(df, x_label):
         plt.Figure: Figura do Matplotlib contendo o gráfico de barras.
     """
     # Calcula a contagem de salários e a distribuição percentual
-    salary_counts = df['Qual salário você ganha hoje'].value_counts().reindex(['R$1.000 - R$3.000',
-                                                                               'R$3.000 - R$5.000',
-                                                                               'R$5.000 - R$7.000',
-                                                                               'R$7.000 - R$9.000',
-                                                                               'R$9.000 - R$11.000',
-                                                                               'R$11.000 - R$13.000',
-                                                                               'R$13.000 - R$15.000',
-                                                                               'R$15.000 - R$17.000',
-                                                                               'R$17.000 - R$19.000',
-                                                                               'R$19.000 - R$21.000',
-                                                                               'R$21.000 - R$23.000',
-                                                                               'R$23.000 - R$25.000',
-                                                                               '+ que R$25.000'])
+    salary_counts = df['Qual salário você ganha hoje'].value_counts().reindex(['R$1.000 - R$2.000',
+                                                                               'R$2.000 - R$3.000',
+                                                                               'R$3.000 - R$4.000',
+                                                                               'R$4.000 - R$5.000',
+                                                                               'R$5.000 - R$6.000',
+                                                                               'R$6.000 - R$7.000',
+                                                                               'R$7.000 - R$8.000',
+                                                                               'R$8.000 - R$9.000',
+                                                                               'R$9.000 - R$10.000',
+                                                                               'R$10.000 - R$11.000',
+                                                                               'R$11.000 - R$12.000',
+                                                                               'R$12.000 - R$13.000',
+                                                                               'R$13.000 - R$14.000',
+                                                                               'R$14.000 - R$15.000',
+                                                                               '+ que R$15.000'])
     total_count = salary_counts.sum()
     percentages = (salary_counts / total_count) * 100
 
@@ -175,50 +177,6 @@ def plot_year_pie_chart(df):
 
     return fig
 
-def plot_state_pie_chart(df):
-    """
-    Plota um gráfico de pizza com a distribuição percentual dos Estados onde trabalha.
-
-    Args:
-        df (pd.DataFrame): DataFrame contendo os dados dos Estados onde trabalha.
-
-    Returns:
-        plt.Figure: Figura do Matplotlib contendo o gráfico de pizza.
-    """
-    # Calcula a contagem de formandos por ano e a distribuição percentual
-    year_counts = df['Qual Estado do Brasil Você Trabalha?'].value_counts()
-    total_count = year_counts.sum()
-    percentages = (year_counts / total_count) * 100
-
-    # Cria um gráfico de pizza
-    fig, ax = plt.subplots(figsize=(8, 6))
-    wedges, texts, autotexts = ax.pie(
-        percentages,
-        labels=year_counts.index,
-        autopct='%1.1f%%',
-        startangle=90,
-        colors=cm.tab20(range(len(year_counts)))
-    )
-
-    # Adiciona contagens de frequência ao lado dos anos e entre parênteses
-    labels_with_count = [f"{label}({count})" for label, count in zip(year_counts.index, year_counts)]
-    for text, label_with_count in zip(texts, labels_with_count):
-        text.set_text(label_with_count)
-
-    # Configurações dos textos
-    for text in texts:
-        text.set_fontsize(10)
-        text.set_fontweight('bold')
-
-    for autotext in autotexts:
-        autotext.set_fontsize(12)
-        autotext.set_fontweight('bold')
-        autotext.set_color('white')
-
-    # Configurações do título
-    ax.set_title('Distribuição Percentual do Estado onde Trabalha', fontsize=15, fontweight='bold')
-
-    return fig
 
 def main():
     # Obtém e limpa os dados da planilha
@@ -243,14 +201,6 @@ def main():
     # Plota e exibe o gráfico de pizza na segunda coluna (mais larga)
     with col2:
         fig = plot_year_pie_chart(df)
-        st.pyplot(fig)
-
-    # Cria três colunas no Streamlit com larguras específicas
-    col1, col2, col3 = st.columns([0.1, 0.8, 0.1])
-
-    # Plota e exibe o gráfico de pizza na segunda coluna (mais larga)
-    with col2:
-        fig = plot_state_pie_chart(df)
         st.pyplot(fig)
 
 
